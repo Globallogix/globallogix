@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalLogix & Nexplan | AFSHA GROUP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        
+        /* Custom Emerald Palette */
+        .bg-emerald-deep { background-color: #064e3b; }
+        .text-emerald-bright { color: #10b981; }
+        .border-emerald-soft { border-color: #065f46; }
+        
+        .plane-shadow {
+            position: fixed;
+            top: 10%;
+            left: -5%;
+            opacity: 0.05;
+            z-index: -1;
+            pointer-events: none;
+            transform: rotate(25deg);
+            color: #064e3b;
+        }
+
+        .section-divider {
+            height: 4px;
+            width: 60px;
+            background: #10b981;
+            margin: 1.5rem auto;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="bg-white text-black">
+
+    <div class="plane-shadow">
+        <svg width="1000" height="1000" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+        </svg>
+    </div>
+
+    <nav class="bg-black text-white p-4 sticky top-0 z-50 shadow-2xl">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex flex-col">
+                <h1 class="text-xl font-black tracking-tighter text-emerald-bright">AFSHA GROUP</h1>
+                <span class="text-[9px] uppercase tracking-[0.3em] text-gray-400 font-bold">Logistics & Tourism</span>
+            </div>
+            <div class="hidden md:flex gap-8 text-[11px] font-bold uppercase tracking-widest">
+                <a href="#cargo" class="hover:text-emerald-bright transition">Cargo Division</a>
+                <a href="#nexplan" class="hover:text-emerald-bright transition">Nexplan Holidays</a>
+                <a href="#ceo" class="hover:text-emerald-bright transition">Leadership</a>
+            </div>
+            <button class="bg-emerald-deep border border-emerald-bright px-5 py-2 rounded text-[10px] font-black uppercase tracking-widest hover:bg-emerald-bright hover:text-black transition">Portal Login</button>
+        </div>
+    </nav>
+
+    <header id="cargo" class="bg-black py-24 text-white relative border-b border-emerald-900">
+        <div class="container mx-auto px-4 text-center">
+            <span class="border border-emerald-bright text-emerald-bright px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-6 inline-block">GlobalLogix Logistics</span>
+            <h2 class="text-5xl md:text-7xl font-black mb-6 tracking-tighter">PREMIUM CARGO.<br><span class="text-emerald-bright">GLOBAL PRECISION.</span></h2>
+            <p class="text-gray-400 mb-12 max-w-2xl mx-auto text-lg">
+                Operating high-frequency routes to **MCT, ALG, and KBL** with strategic onward connectivity worldwide.
+            </p>
+            
+            <div class="bg-white/5 backdrop-blur-md p-2 rounded-2xl border border-emerald-900 max-w-2xl mx-auto flex flex-col md:flex-row gap-2">
+                <input type="text" placeholder="AWB Tracking Number..." class="flex-1 p-4 bg-transparent text-white outline-none rounded-lg placeholder:text-gray-600 font-medium">
+                <button class="bg-emerald-bright text-black px-10 py-4 rounded-xl font-black uppercase text-xs transition hover:bg-white">Track Shipment</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="container mx-auto px-4 py-20">
+        <div class="grid lg:grid-cols-2 gap-12">
+            <div class="bg-white p-10 rounded-3xl border-2 border-emerald-50">
+                <h3 class="text-2xl font-black mb-8 uppercase tracking-tighter flex items-center gap-3">
+                    <i data-lucide="plane" class="text-emerald-deep"></i> Hub Network
+                </h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center p-5 bg-emerald-50/30 rounded-2xl border-l-8 border-emerald-deep">
+                        <span class="font-bold">Oman Air (MCT)</span>
+                        <span class="text-[10px] font-black text-emerald-deep">ACTIVE</span>
+                    </div>
+                    <div class="flex justify-between items-center p-5 bg-emerald-50/30 rounded-2xl border-l-8 border-emerald-deep">
+                        <span class="font-bold">Air Algerie (ALG)</span>
+                        <span class="text-[10px] font-black text-emerald-deep">ACTIVE</span>
+                    </div>
+                    <div class="flex justify-between items-center p-5 bg-emerald-50/30 rounded-2xl border-l-8 border-emerald-deep">
+                        <span class="font-bold">Kam Air / Ariana (KBL)</span>
+                        <span class="text-[10px] font-black text-emerald-deep">ACTIVE</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-emerald-deep text-white p-10 rounded-3xl shadow-2xl">
+                <h3 class="text-2xl font-black mb-8 uppercase tracking-tighter">Cargo Tariffs</h3>
+                <div class="space-y-6">
+                    <div class="flex justify-between border-b border-emerald-800 pb-2"><span>Muscat Hub</span> <span class="font-black">$1.85/KG</span></div>
+                    <div class="flex justify-between border-b border-emerald-800 pb-2"><span>Algiers Hub</span> <span class="font-black">$3.10/KG</span></div>
+                    <div class="flex justify-between border-b border-emerald-800 pb-2"><span>Kabul Hub</span> <span class="font-black">$4.50/KG</span></div>
+                    <p class="text-[10px] text-emerald-bright font-bold uppercase tracking-widest">Connect Worldwide via AFSHA Group Network</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="nexplan" class="bg-black py-24 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <span class="text-emerald-bright font-black uppercase tracking-[0.3em] text-xs">Sister Concern</span>
+            <h2 class="text-4xl md:text-5xl font-black mt-4 mb-2 tracking-tighter uppercase">NEXPLAN <span class="text-emerald-bright text-white border-b-4 border-emerald-bright">HOLIDAYS</span></h2>
+            <p class="text-gray-400 max-w-xl mx-auto mt-8 font-medium italic">
+                "Redefining the art of travel through bespoke tourism and global ticketing."
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-8 mt-16">
+                <div class="p-8 border border-emerald-900 rounded-3xl hover:bg-emerald-deep transition-all group">
+                    <i data-lucide="palmtree" class="text-emerald-bright mb-4 w-10 h-10"></i>
+                    <h4 class="font-black text-lg mb-2 uppercase group-hover:text-white">Premium Packages</h4>
+                    <p class="text-sm text-gray-500 group-hover:text-emerald-100">Bespoke itineraries for elite vacation experiences.</p>
+                </div>
+                <div class="p-8 border border-emerald-900 rounded-3xl hover:bg-emerald-deep transition-all group">
+                    <i data-lucide="ticket" class="text-emerald-bright mb-4 w-10 h-10"></i>
+                    <h4 class="font-black text-lg mb-2 uppercase group-hover:text-white">Global Ticketing</h4>
+                    <p class="text-sm text-gray-500 group-hover:text-emerald-100">Direct flight bookings across all major international carriers.</p>
+                </div>
+                <div class="p-8 border border-emerald-900 rounded-3xl hover:bg-emerald-deep transition-all group">
+                    <i data-lucide="shield-check" class="text-emerald-bright mb-4 w-10 h-10"></i>
+                    <h4 class="font-black text-lg mb-2 uppercase group-hover:text-white">Visa Concierge</h4>
+                    <p class="text-sm text-gray-500 group-hover:text-emerald-100">Simplified processing for global travel documentation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ceo" class="py-24 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <div class="inline-block relative mb-10">
+                <div class="w-60 h-60 rounded-full overflow-hidden shadow-[0_20px_50px_rgba(6,78,59,0.3)] border-8 border-white">
+                    <img src="afsalpz.jpg" 
+                         alt="Afsaluddeen Hamsa" 
+                         onerror="this.src='https://via.placeholder.com/300?text=AFSALUDDEEN+HAMSA'"
+                         class="w-full h-full object-cover">
+                </div>
+                <div class="absolute bottom-4 right-4 bg-black text-emerald-bright p-3 rounded-full shadow-xl border border-emerald-bright">
+                    <i data-lucide="award" class="w-6 h-6"></i>
+                </div>
+            </div>
+            <h2 class="text-4xl font-black text-black mb-2 uppercase tracking-tighter">Afsaluddeen Hamsa</h2>
+            <p class="text-emerald-deep font-black uppercase tracking-[0.2em] text-xs mb-8">Chief Executive Officer | AFSHA GROUP</p>
+            <p class="text-gray-500 max-w-2xl mx-auto italic leading-relaxed text-lg">
+                "AFSHA GROUP stands at the intersection of industry and leisure. Through GlobalLogix and Nexplan Holidays, we provide the infrastructure for trade and the wings for travel."
+            </p>
+        </div>
+    </section>
+
+    <footer class="bg-black text-white py-16 text-center">
+        <h3 class="text-3xl font-black tracking-tighter text-emerald-bright">AFSHA GROUP</h3>
+        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-[0.5em] mt-2 mb-12">Logistics • Tourism • Excellence</p>
+        
+        <div class="flex justify-center gap-12 text-[10px] font-black uppercase tracking-widest text-gray-400">
+            <div class="flex flex-col items-center">
+                <span class="text-emerald-bright mb-2">GlobalLogix</span>
+                <span>Cargo Solutions</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span class="text-emerald-bright mb-2">Nexplan Holidays</span>
+                <span>Travel Solutions</span>
+            </div>
+        </div>
+        
+        <p class="text-[9px] text-gray-700 mt-20 font-bold uppercase tracking-[0.4em]">© 2026 AFSHA GROUP HOLDINGS</p>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>
