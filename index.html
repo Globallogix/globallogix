@@ -177,218 +177,142 @@
         <p class="text-[9px] text-gray-700 mt-20 font-bold uppercase tracking-[0.4em]">© 2026 AFSHA GROUP HOLDINGS</p>
     </footer>
 
-    <script>lucide.createIcons();</script>
-   <style>
-    /* Desktop Default */
-    #smartPad {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 280px;
-        height: 350px;
-        min-width: 150px;
-        min-height: 150px;
-        background: rgba(10, 10, 10, 0.98);
-        border: 2px solid #2E7D32;
-        border-radius: 12px;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.8);
-        z-index: 9999;
-        font-family: 'Segoe UI', sans-serif;
-        overflow: hidden;
-        resize: both;
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Mobile Specific (Screens smaller than 600px) */
-    @media (max-width: 600px) {
-        #smartPad {
-            width: 140px;   /* Half width on mobile */
-            height: 200px;  /* Shorter on mobile */
-            bottom: 10px;
-            right: 10px;
-        }
-        #smartPad span { font-size: 8px; } /* Smaller text for mobile header */
-        #smartPad button { padding: 2px 4px; font-size: 7px; }
-    }
-</style>
-
-<div id="smartPad">
-    <div style="background: #2E7D32; color: white; padding: 10px; font-size: 11px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;">
-        <span>Note it down!!</span>
-        <button onclick="clearAll()" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.5); color: white; cursor: pointer; border-radius: 4px;">RESET</button>
-    </div>
-    
-    <div style="flex: 1; background: #000; position: relative;">
-        <canvas id="canvas" style="cursor: crosshair; touch-action: none; width: 100%; height: 100%; display: block;"></canvas>
-    </div>
-
-    <div style="height: 30%; background: #111; border-top: 1px solid #222; flex-shrink: 0;">
-        <textarea id="noteArea" placeholder="Notes..." style="width: 100%; height: 100%; background: transparent; border: none; color: #90ee90; font-size: 11px; outline: none; resize: none; padding: 5px; box-sizing: border-box; font-family: 'Courier New', monospace;"></textarea>
-    </div>
-</div>
-
-<script>
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    const noteArea = document.getElementById('noteArea');
-    const smartPad = document.getElementById('smartPad');
-    let drawing = false;
-
-    function resizeCanvas() {
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-        ctx.strokeStyle = '#2E7D32'; 
-        ctx.lineWidth = 2;
-        ctx.lineCap = 'round';
-    }
-
-    window.addEventListener('load', resizeCanvas);
-    new ResizeObserver(resizeCanvas).observe(smartPad);
-
-    function getPos(e) {
-        const rect = canvas.getBoundingClientRect();
-        return {
-            x: (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left,
-            y: (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top
-        };
-    }
-
-    function startDrawing(e) { drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }
-    function stopDrawing() { drawing = false; }
-    function draw(e) {
-        if (!drawing) return;
-        const p = getPos(e);
-        ctx.lineTo(p.x, p.y);
-        ctx.stroke();
-    }
-
-    function clearAll() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        noteArea.value = '';
-    }
-
-    canvas.addEventListener('mousedown', startDrawing);
-    canvas.addEventListener('mousemove', draw);
-    window.addEventListener('mouseup', stopDrawing);
-    canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startDrawing(e); }, {passive: false});
-    canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e); }, {passive: false});
-    canvas.addEventListener('touchend', stopDrawing);
-</script>
-   <style>
-    /* Floating Bobbing Animation */
+<style>
+    /* Shared Animations */
     @keyframes float {
         0% { transform: translateY(0px); }
         50% { transform: translateY(-10px); }
         100% { transform: translateY(0px); }
     }
-
-    /* Pulsing Glow Animation */
-    @keyframes glow {
+    @keyframes glow-green {
         0% { box-shadow: 0 5px 15px rgba(46, 125, 50, 0.4); }
-        50% { box-shadow: 0 5px 30px rgba(144, 238, 144, 0.8); }
+        50% { box-shadow: 0 5px 25px rgba(144, 238, 144, 0.6); }
         100% { box-shadow: 0 5px 15px rgba(46, 125, 50, 0.4); }
     }
 
-    #chatWrapper {
+    /* Action Buttons Container */
+    .afsha-controls {
         position: fixed;
         bottom: 25px;
-        right: 320px;
+        right: 20px;
+        display: flex;
+        gap: 15px;
         z-index: 9999;
-        font-family: 'Segoe UI', sans-serif;
     }
 
-    .floating-btn {
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #2E7D32, #1b4d1f);
+    .icon-circle {
+        width: 55px;
+        height: 55px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        animation: float 3s ease-in-out infinite, glow 2s infinite; /* Combines both effects */
         transition: all 0.3s ease;
+        animation: float 3s ease-in-out infinite;
+        font-size: 24px;
+        color: white;
         border: 2px solid rgba(255,255,255,0.1);
     }
 
-    .floating-btn:hover {
-        transform: scale(1.1); /* Grows slightly when hovered */
-        background: #4CAF50;
+    /* Specific Styles for each Icon */
+    .btn-chat { background: linear-gradient(135deg, #2E7D32, #1b4d1f); animation-delay: 0s; box-shadow: 0 5px 15px rgba(46, 125, 50, 0.4); }
+    .btn-pad { background: linear-gradient(135deg, #111, #333); animation-delay: 0.5s; border: 2px solid #2E7D32; }
+    
+    .icon-circle:hover { transform: scale(1.1) translateY(-5px); }
+
+    /* Pop-up Windows */
+    .popup-window {
+        display: none;
+        position: fixed;
+        bottom: 95px;
+        background: #0a0a0a;
+        border: 2px solid #2E7D32;
+        border-radius: 20px;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+        z-index: 10000;
     }
 
-    /* Mobile adjustment */
     @media (max-width: 600px) {
-        #chatWrapper {
-            right: 175px; 
-            bottom: 20px;
-        }
-        .floating-btn {
-            width: 50px;
-            height: 50px;
-        }
+        .afsha-controls { gap: 10px; bottom: 15px; right: 10px; }
+        .icon-circle { width: 45px; height: 45px; font-size: 20px; }
+        .popup-window { width: 260px !important; right: 10px !important; }
     }
 </style>
 
-<div id="chatWrapper">
-    <div id="chatBox" style="display: none; width: 280px; height: 400px; background: #0a0a0a; border: 2px solid #2E7D32; border-radius: 20px; flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.9); margin-bottom: 15px;">
-        <div style="background: #2E7D32; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <div style="width: 8px; height: 8px; background: #90ee90; border-radius: 50%; animation: pulse 1.5s infinite;"></div>
-                <span style="font-size: 11px; letter-spacing: 1px;">Get answers for your concern</span>
-            </div>
-            <span onclick="toggleChat()" style="cursor: pointer; font-size: 20px;">×</span>
-        </div>
-        
-        <div id="chatMessages" style="flex: 1; padding: 15px; overflow-y: auto; color: #ddd; font-size: 13px; display: flex; flex-direction: column; gap: 10px; background: #050505;">
-            <div style="background: #1a1a1a; padding: 12px; border-radius: 12px; border-left: 4px solid #2E7D32; line-height: 1.5;">
-                Welcome to Afsha Group. How can I assist you with Logistics or Nexplan Holidays today?
-            </div>
-        </div>
+<div class="afsha-controls">
+    <div class="icon-circle btn-pad" onclick="toggleWindow('smartPad')" title="Open Notepad">📝</div>
+    <div class="icon-circle btn-chat" onclick="toggleWindow('chatBox')" title="Open AI Chat">💬</div>
+</div>
 
-        <div style="padding: 12px; border-top: 1px solid #222; display: flex; gap: 8px; background: #0a0a0a;">
-            <input type="text" id="chatInput" placeholder="Type a message..." style="flex: 1; background: #111; border: 1px solid #333; color: white; padding: 10px; border-radius: 20px; outline: none; font-size: 12px; padding-left: 15px;">
-            <button onclick="sendMessage()" style="background: #2E7D32; border: none; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">➤</button>
-        </div>
+<div id="smartPad" class="popup-window" style="width: 280px; height: 350px; right: 85px; resize: both;">
+    <div style="background: #2E7D32; color: white; padding: 12px; font-size: 11px; font-weight: bold; display: flex; justify-content: space-between;">
+        <span>AFSHA WORKSPACE</span>
+        <span onclick="toggleWindow('smartPad')" style="cursor:pointer">×</span>
     </div>
+    <div style="flex: 1; background: #000;"><canvas id="canvas" style="width:100%; height:100%; display:block; cursor:crosshair;"></canvas></div>
+    <textarea id="noteArea" placeholder="Type notes..." style="height:80px; background:#111; border:none; color:#90ee90; padding:10px; font-family:monospace; resize:none; outline:none;"></textarea>
+</div>
 
-    <div class="floating-btn" onclick="toggleChat()">
-        <span style="font-size: 28px; color: white;">💬</span>
+<div id="chatBox" class="popup-window" style="width: 300px; height: 400px; right: 20px;">
+    <div style="background: #2E7D32; color: white; padding: 12px; font-weight: bold; display: flex; justify-content: space-between;">
+        <span>AFSHA AI</span>
+        <span onclick="toggleWindow('chatBox')" style="cursor:pointer">×</span>
     </div>
+    <div id="chatMessages" style="flex: 1; padding: 15px; overflow-y: auto; color: #ddd; font-size: 13px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="background: #1a1a1a; padding: 10px; border-radius: 10px; border-left: 3px solid #2E7D32;">How can I help you today?</div>
+    </div>
+    <div style="padding: 10px; display: flex; gap: 5px;"><input type="text" id="chatInput" style="flex:1; background:#111; border:1px solid #333; color:white; padding:8px; border-radius:20px; outline:none;"><button onclick="sendMessage()" style="background:#2E7D32; border:none; color:white; width:35px; height:35px; border-radius:50%; cursor:pointer;">➤</button></div>
 </div>
 
 <script>
-    /* JavaScript logic remains the same as before */
-    function toggleChat() {
-        const chat = document.getElementById('chatBox');
-        chat.style.display = chat.style.display === 'none' ? 'flex' : 'none';
+    // Toggle Windows
+    function toggleWindow(id) {
+        const win = document.getElementById(id);
+        win.style.display = (win.style.display === 'none' || win.style.display === '') ? 'flex' : 'none';
+        if(id === 'smartPad') setTimeout(resizeCanvas, 50);
     }
 
+    // --- Smartpad Logic ---
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+
+    function resizeCanvas() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        ctx.strokeStyle = '#2E7D32'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+    }
+
+    canvas.addEventListener('mousedown', (e) => { drawing = true; ctx.beginPath(); });
+    canvas.addEventListener('mousemove', (e) => {
+        if(!drawing) return;
+        const rect = canvas.getBoundingClientRect();
+        ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+        ctx.stroke();
+    });
+    window.addEventListener('mouseup', () => drawing = false);
+
+    // --- Chatbot Logic ---
     function sendMessage() {
         const input = document.getElementById('chatInput');
-        const container = document.getElementById('chatMessages');
         if (!input.value.trim()) return;
-
+        const container = document.getElementById('chatMessages');
         const userMsg = document.createElement('div');
-        userMsg.style.cssText = "align-self: flex-end; background: #2E7D32; color: white; padding: 10px 14px; border-radius: 15px 15px 2px 15px; max-width: 85%; font-size: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);";
+        userMsg.style.cssText = "align-self: flex-end; background: #2E7D32; color: white; padding: 8px; border-radius: 10px;";
         userMsg.innerText = input.value;
         container.appendChild(userMsg);
-
-        const query = input.value.toLowerCase();
-        let response = "Thank you for reaching out. A representative from Afsha Group will review your request.";
-
-        if(query.includes("rate")) response = "Cargo rates for MCT-ALG-KBL vary by weight. Please check our Tariff table for the $2.50/kg base rate.";
-        if(query.includes("holiday")) response = "Nexplan Holidays offers luxury tours. Visit the #Nexplan section for our current packages!";
-
+        input.value = '';
+        
         setTimeout(() => {
             const aiMsg = document.createElement('div');
-            aiMsg.style.cssText = "align-self: flex-start; background: #1a1a1a; color: #90ee90; padding: 10px 14px; border-radius: 15px 15px 15px 2px; max-width: 85%; border-left: 4px solid #2E7D32; font-size: 12px;";
-            aiMsg.innerText = response;
+            aiMsg.style.cssText = "align-self: flex-start; background: #1a1a1a; color: #90ee90; padding: 8px; border-radius: 10px; border-left: 3px solid #2E7D32;";
+            aiMsg.innerText = "Understood. Our team will assist you shortly.";
             container.appendChild(aiMsg);
             container.scrollTop = container.scrollHeight;
         }, 600);
-
-        input.value = '';
     }
 </script>
 </body>
