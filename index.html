@@ -178,23 +178,23 @@
     </footer>
 
     <script>lucide.createIcons();</script>
-   <div id="smartPad" style="position: fixed; bottom: 20px; right: 20px; width: 260px; background: rgba(15, 15, 15, 0.98); border: 2px solid #2E7D32; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); z-index: 9999; font-family: 'Segoe UI', sans-serif; overflow: hidden;">
+   <div id="smartPad" style="position: fixed; bottom: 20px; right: 20px; width: 280px; min-width: 200px; min-height: 150px; background: rgba(10, 10, 10, 0.98); border: 2px solid #2E7D32; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); z-index: 9999; font-family: 'Segoe UI', sans-serif; overflow: hidden; resize: both; display: flex; flex-direction: column;">
     
-    <div style="background: #2E7D32; color: white; padding: 12px; font-size: 11px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; letter-spacing: 1px;">
-        <span>Your workspace</span>
-        <button onclick="clearAll()" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.5); color: white; font-size: 9px; cursor: pointer; padding: 3px 8px; border-radius: 4px; text-transform: uppercase;">Reset</button>
+    <div style="background: #2E7D32; color: white; padding: 10px; font-size: 11px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; letter-spacing: 1px; flex-shrink: 0;">
+        <span>Note it down!!</span>
+        <button onclick="clearAll()" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.5); color: white; font-size: 9px; cursor: pointer; padding: 3px 8px; border-radius: 4px;">RESET</button>
     </div>
     
-    <div style="border-bottom: 1px solid #333;">
-        <canvas id="canvas" width="260" height="150" style="cursor: crosshair; touch-action: none; background: #000; display: block;"></canvas>
+    <div style="flex: 1; min-height: 100px; background: #000; position: relative;">
+        <canvas id="canvas" style="cursor: crosshair; touch-action: none; width: 100%; height: 100%; display: block;"></canvas>
     </div>
 
-    <div style="padding: 5px; background: #111;">
-        <textarea id="noteArea" placeholder="Type cargo details or notes here..." style="width: 100%; height: 80px; background: transparent; border: none; color: #90ee90; font-size: 13px; outline: none; resize: none; padding: 10px; box-sizing: border-box; font-family: 'Courier New', monospace; border-top: 1px solid #222;"></textarea>
+    <div style="height: 100px; min-height: 50px; background: #111; border-top: 1px solid #222; flex-shrink: 0;">
+        <textarea id="noteArea" placeholder="Type notes..." style="width: 100%; height: 100%; background: transparent; border: none; color: #90ee90; font-size: 13px; outline: none; resize: none; padding: 10px; box-sizing: border-box; font-family: 'Courier New', monospace;"></textarea>
     </div>
     
-    <div style="padding: 6px; font-size: 9px; color: #555; text-align: center; background: #0a0a0a; letter-spacing: 1px;">
-        DRAW & TYPE • LOGISTICS UTILITY
+    <div style="padding: 4px; font-size: 8px; color: #444; text-align: center; background: #050505; cursor: nwse-resize;">
+        ↘ DRAG CORNER TO RESIZE
     </div>
 </div>
 
@@ -202,12 +202,22 @@
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     const noteArea = document.getElementById('noteArea');
+    const smartPad = document.getElementById('smartPad');
     let drawing = false;
 
-    // Set Pen Style (Emerald Green)
-    ctx.strokeStyle = '#2E7D32'; 
-    ctx.lineWidth = 3;
-    ctx.lineCap = 'round';
+    // Adjust canvas resolution for resizing
+    function resizeCanvas() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        // Re-set styles after resize as canvas reset clears context
+        ctx.strokeStyle = '#2E7D32'; 
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+    }
+
+    // Initialize and watch for resizes
+    window.addEventListener('load', resizeCanvas);
+    new ResizeObserver(resizeCanvas).observe(smartPad);
 
     function startDrawing(e) {
         drawing = true;
@@ -230,10 +240,12 @@
         ctx.beginPath();
         ctx.moveTo(x, y);
     }
+
     function clearAll() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         noteArea.value = '';
     }
+
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('mouseup', stopDrawing);
