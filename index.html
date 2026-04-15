@@ -178,5 +178,64 @@
     </footer>
 
     <script>lucide.createIcons();</script>
+    <div id="scribblePad" style="position: fixed; bottom: 20px; right: 20px; width: 250px; background: rgba(26, 26, 26, 0.95); border: 1px solid #2E7D32; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 9999; font-family: sans-serif; overflow: hidden;">
+    <div style="background: #2E7D32; color: white; padding: 10px; font-size: 12px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+        <span>QUICK NOTES</span>
+        <button onclick="clearScribble()" style="background: none; border: 1px solid white; color: white; font-size: 9px; cursor: pointer; padding: 2px 5px; border-radius: 3px;">CLEAR</button>
+    </div>
+    
+    <canvas id="canvas" width="250" height="200" style="cursor: crosshair; touch-action: none; background: #000;"></canvas>
+    
+    <div style="padding: 8px; font-size: 9px; color: #888; text-align: center; border-top: 1px solid #333;">
+        Scribble notes here for Afsha Group
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+
+    // Set Pen Style
+    ctx.strokeStyle = '#90ee90'; // Emerald Green Pen
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+
+    function startDrawing(e) {
+        drawing = true;
+        draw(e);
+    }
+
+    function stopDrawing() {
+        drawing = false;
+        ctx.beginPath();
+    }
+
+    function draw(e) {
+        if (!drawing) return;
+        
+        // Handle both Mouse and Touch
+        const rect = canvas.getBoundingClientRect();
+        const x = (e.clientX || e.touches[0].clientX) - rect.left;
+        const y = (e.clientY || e.touches[0].clientY) - rect.top;
+
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+    }
+
+    function clearScribble() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Event Listeners
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('touchstart', startDrawing);
+    canvas.addEventListener('touchmove', draw);
+    canvas.addEventListener('touchend', stopDrawing);
+</script>
 </body>
 </html>
