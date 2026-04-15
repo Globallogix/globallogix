@@ -178,23 +178,53 @@
     </footer>
 
     <script>lucide.createIcons();</script>
-   <div id="smartPad" style="position: fixed; bottom: 20px; right: 20px; width: 280px; min-width: 200px; min-height: 150px; background: rgba(10, 10, 10, 0.98); border: 2px solid #2E7D32; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); z-index: 9999; font-family: 'Segoe UI', sans-serif; overflow: hidden; resize: both; display: flex; flex-direction: column;">
-    
-    <div style="background: #2E7D32; color: white; padding: 10px; font-size: 11px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; letter-spacing: 1px; flex-shrink: 0;">
-        <span>Note it down!!</span>
-        <button onclick="clearAll()" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.5); color: white; font-size: 9px; cursor: pointer; padding: 3px 8px; border-radius: 4px;">RESET</button>
+   <style>
+    /* Desktop Default */
+    #smartPad {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 280px;
+        height: 350px;
+        min-width: 150px;
+        min-height: 150px;
+        background: rgba(10, 10, 10, 0.98);
+        border: 2px solid #2E7D32;
+        border-radius: 12px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+        z-index: 9999;
+        font-family: 'Segoe UI', sans-serif;
+        overflow: hidden;
+        resize: both;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Mobile Specific (Screens smaller than 600px) */
+    @media (max-width: 600px) {
+        #smartPad {
+            width: 140px;   /* Half width on mobile */
+            height: 200px;  /* Shorter on mobile */
+            bottom: 10px;
+            right: 10px;
+        }
+        #smartPad span { font-size: 8px; } /* Smaller text for mobile header */
+        #smartPad button { padding: 2px 4px; font-size: 7px; }
+    }
+</style>
+
+<div id="smartPad">
+    <div style="background: #2E7D32; color: white; padding: 10px; font-size: 11px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;">
+        <span>AFSHA PAD</span>
+        <button onclick="clearAll()" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.5); color: white; cursor: pointer; border-radius: 4px;">RESET</button>
     </div>
     
-    <div style="flex: 1; min-height: 100px; background: #000; position: relative;">
+    <div style="flex: 1; background: #000; position: relative;">
         <canvas id="canvas" style="cursor: crosshair; touch-action: none; width: 100%; height: 100%; display: block;"></canvas>
     </div>
 
-    <div style="height: 100px; min-height: 50px; background: #111; border-top: 1px solid #222; flex-shrink: 0;">
-        <textarea id="noteArea" placeholder="Type notes..." style="width: 100%; height: 100%; background: transparent; border: none; color: #90ee90; font-size: 13px; outline: none; resize: none; padding: 10px; box-sizing: border-box; font-family: 'Courier New', monospace;"></textarea>
-    </div>
-    
-    <div style="padding: 4px; font-size: 8px; color: #444; text-align: center; background: #050505; cursor: nwse-resize;">
-        ↘ DRAG CORNER TO RESIZE
+    <div style="height: 30%; background: #111; border-top: 1px solid #222; flex-shrink: 0;">
+        <textarea id="noteArea" placeholder="Notes..." style="width: 100%; height: 100%; background: transparent; border: none; color: #90ee90; font-size: 11px; outline: none; resize: none; padding: 5px; box-sizing: border-box; font-family: 'Courier New', monospace;"></textarea>
     </div>
 </div>
 
@@ -205,40 +235,32 @@
     const smartPad = document.getElementById('smartPad');
     let drawing = false;
 
-    // Adjust canvas resolution for resizing
     function resizeCanvas() {
         canvas.width = canvas.offsetWidth;
         canvas.height = canvas.offsetHeight;
-        // Re-set styles after resize as canvas reset clears context
         ctx.strokeStyle = '#2E7D32'; 
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2;
         ctx.lineCap = 'round';
     }
 
-    // Initialize and watch for resizes
     window.addEventListener('load', resizeCanvas);
     new ResizeObserver(resizeCanvas).observe(smartPad);
 
-    function startDrawing(e) {
-        drawing = true;
-        draw(e);
+    function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        return {
+            x: (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left,
+            y: (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top
+        };
     }
 
-    function stopDrawing() {
-        drawing = false;
-        ctx.beginPath();
-    }
-
+    function startDrawing(e) { drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }
+    function stopDrawing() { drawing = false; }
     function draw(e) {
         if (!drawing) return;
-        const rect = canvas.getBoundingClientRect();
-        const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-        const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-
-        ctx.lineTo(x, y);
+        const p = getPos(e);
+        ctx.lineTo(p.x, p.y);
         ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(x, y);
     }
 
     function clearAll() {
@@ -248,9 +270,9 @@
 
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', stopDrawing);
-    canvas.addEventListener('touchstart', startDrawing);
-    canvas.addEventListener('touchmove', draw);
+    window.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startDrawing(e); }, {passive: false});
+    canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e); }, {passive: false});
     canvas.addEventListener('touchend', stopDrawing);
 </script>
 </body>
