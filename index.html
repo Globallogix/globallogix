@@ -275,7 +275,7 @@
     canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e); }, {passive: false});
     canvas.addEventListener('touchend', stopDrawing);
 </script>
-    <style>
+   <style>
     /* Floating Bobbing Animation */
     @keyframes float {
         0% { transform: translateY(0px); }
@@ -377,7 +377,7 @@
         const query = input.value.toLowerCase();
         let response = "Thank you for reaching out. A representative from Afsha Group will review your request.";
 
-        if(query.includes("rate")) response = "Cargo rates for MCT-ALG-KBL vary by weight. Please check our Tariff tablefor the $2.50/kg base rate.";
+        if(query.includes("rate")) response = "Cargo rates for MCT-ALG-KBL vary by weight. Please check our Tariff table for the $2.50/kg base rate.";
         if(query.includes("holiday")) response = "Nexplan Holidays offers luxury tours. Visit the #Nexplan section for our current packages!";
 
         setTimeout(() => {
@@ -390,6 +390,6 @@
 
         input.value = '';
     }
-<script>
+</script>
 </body>
 </html>
