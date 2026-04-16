@@ -371,16 +371,107 @@
         }
     }
 </script>
-    <script>
-        /* =========================================
-           AFSHA GROUP KNOWLEDGE BASE
-           ========================================= */
-        const afshaIntelligence = [
-            // ... (the rest of the code I sent you)
-        ];
+   <script>
+/* =========================================
+   AFSHA GROUP KNOWLEDGE BASE
+   ========================================= */
+const afshaIntelligence = [
+    {
+        keywords: ["rate", "price", "cost", "tariff", "charge"],
+        response: "Our standard cargo rates for the MCT-ALG-KBL corridor start at $2.50/kg. For shipments over 500kg or specialized ULD requirements, please contact our logistics desk for a volume discount."
+    },
+    {
+        keywords: ["track", "awb", "status", "where", "location"],
+        response: "To track your shipment, please enter your 11-digit Air Waybill (AWB) number. If you don't have it, I can look it up using your House Waybill (HAWB) or Booking Reference."
+    },
+    {
+        keywords: ["holiday", "tourism", "package", "tour", "travel", "nexplan"],
+        response: "Nexplan Holidays offers premium tourism packages. We currently have active departures for Switzerland, Georgia, and Thailand. Would you like to see the itinerary for our 'Emerald Europe' package?"
+    },
+    {
+        keywords: ["visa", "passport", "document"],
+        response: "Nexplan provides full visa assistance for GCC residents and international travelers. We handle documentation for Schengen, UK, and USA visas as part of our holiday packages."
+    },
+    {
+        keywords: ["ceo", "afsal", "leader", "owner", "management"],
+        response: "Afsha Group is led by Mr. Afsaluddeen Hamsa, a veteran in international logistics and tourism with a focus on connecting global hubs efficiently."
+    },
+    {
+        keywords: ["cargo", "freight", "shipping", "airline", "uld"],
+        response: "Our Cargo Division handles everything from General Cargo to Perishables and Dangerous Goods (DG). We specialize in ground handling and ULD management for major carriers."
+    },
+    {
+        keywords: ["contact", "email", "phone", "number", "office", "address"],
+        response: "You can reach the Afsha Group HQ at info@afshagroup.com or visit our main portal for 24/7 support. Our team is available for urgent logistics queries via the Portal Login."
+    }
+];
 
-        // ... (the functions like sendMessage and toggleWindow)
-    </script>
-</body> </html>
+/* =========================================
+   CHATBOT ENGINE
+   ========================================= */
+function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const container = document.getElementById('chatMessages');
+    const rawText = input.value.trim();
+    const userText = rawText.toLowerCase();
+
+    if (!userText) return;
+
+    // Add User Message
+    addMessage(rawText, 'user');
+    input.value = '';
+
+    // Show Typing Indicator
+    const typingId = showTyping(container);
+
+    // AI Processing Logic
+    let bestMatch = "I am the Afsha Group Assistant. I specialize in Cargo Logistics and Nexplan Tourism. Could you please clarify if you are asking about rates, tracking, or holiday packages?";
+
+    // Loop through the intelligence to find the best response
+    for (let entry of afshaIntelligence) {
+        if (entry.keywords.some(word => userText.includes(word))) {
+            bestMatch = entry.response;
+            break; 
+        }
+    }
+
+    // Realistic Delay for "Thinking"
+    setTimeout(() => {
+        document.getElementById(typingId).remove();
+        addMessage(bestMatch, 'ai');
+        container.scrollTop = container.scrollHeight;
+    }, 1000);
+}
+
+function addMessage(text, type) {
+    const container = document.getElementById('chatMessages');
+    const msg = document.createElement('div');
+    
+    if (type === 'user') {
+        msg.style.cssText = "align-self: flex-end; background: #2E7D32; color: white; padding: 10px 14px; border-radius: 15px 15px 2px 15px; max-width: 80%; font-size: 12px; margin-bottom: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);";
+    } else {
+        msg.style.cssText = "align-self: flex-start; background: #1a1a1a; color: #90ee90; padding: 12px; border-radius: 15px 15px 15px 2px; max-width: 85%; border-left: 4px solid #2E7D32; font-size: 12px; line-height: 1.5; margin-bottom: 8px;";
+    }
+    
+    msg.innerText = text;
+    container.appendChild(msg);
+    container.scrollTop = container.scrollHeight;
+}
+
+function showTyping(container) {
+    const id = "type-" + Date.now();
+    const typing = document.createElement('div');
+    typing.id = id;
+    typing.style.cssText = "align-self: flex-start; background: #111; color: #555; padding: 8px; border-radius: 10px; font-size: 11px; font-style: italic; margin-bottom: 8px;";
+    typing.innerText = "Afsha AI is analyzing...";
+    container.appendChild(typing);
+    return id;
+}
+
+function toggleWindow(id) {
+    const win = document.getElementById(id);
+    win.style.display = (win.style.display === 'none' || win.style.display === '') ? 'flex' : 'none';
+}
+</script>
 </body>
 </html>
