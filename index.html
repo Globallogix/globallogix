@@ -554,7 +554,6 @@ function addMessage(text, type) {
     container.appendChild(msg);
     container.scrollTop = container.scrollHeight;
 }
-
 function showTyping(container) {
     const id = "type-" + Date.now();
     const typing = document.createElement('div');
@@ -564,12 +563,10 @@ function showTyping(container) {
     container.appendChild(typing);
     return id;
 }
-
 function toggleWindow(id) {
     const win = document.getElementById(id);
     win.style.display = (win.style.display === 'none' || win.style.display === '') ? 'flex' : 'none';
 }
 </script>
-
 </body>
 </html>
