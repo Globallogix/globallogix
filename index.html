@@ -570,54 +570,6 @@ function toggleWindow(id) {
     win.style.display = (win.style.display === 'none' || win.style.display === '') ? 'flex' : 'none';
 }
 </script>
-        const canvas = document.getElementById('scribbleCanvas');
-const ctx = canvas.getContext('2d');
-let drawing = false;
 
-// Auto-adjust canvas size to its container
-function resizeCanvas() {
-    canvas.width = canvas.parentElement.offsetWidth - 40;
-    canvas.height = 300;
-    ctx.lineWidth = 2;
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = '#000';
-}
-
-// Drawing Logic
-canvas.addEventListener('mousedown', () => drawing = true);
-canvas.addEventListener('mouseup', () => {
-    drawing = false;
-    ctx.beginPath();
-});
-canvas.addEventListener('mousemove', draw);
-
-function draw(e) {
-    if (!drawing) return;
-    
-    // Get correct mouse position relative to canvas
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    ctx.lineTo(x, y);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-}
-
-function clearPad() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
-function savePad() {
-    const dataURL = canvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.download = 'afsha-note.png';
-    link.href = dataURL;
-    link.click();
-}
-
-// Initialize
-window.addEventListener('load', resizeCanvas);
 </body>
 </html>
