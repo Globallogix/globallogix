@@ -43,6 +43,30 @@
             margin: 1.5rem auto;
             border-radius: 2px;
         }
+        /* This makes the puzzle pieces visible on the map */
+.puzzle-dot {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    z-index: 10;
+    transform: translate(-50%, -50%); /* Centers the dot on the coordinate */
+}
+
+.dot-inner {
+    width: 100%;
+    height: 100%;
+    background: rgba(46, 125, 50, 0.3); /* Transparent Emerald */
+    border: 2px solid #2E7D32;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+/* This class is added by JavaScript when you click the right hub */
+.puzzle-dot.active .dot-inner {
+    background: #2E7D32;
+    box-shadow: 0 0 15px #2E7D32;
+    transform: scale(1.2);
+}
     </style>
 <header style="display: flex; justify-content: space-between; align-items: center; padding: 15px 4%; background: #000; border-bottom: 1px solid #1a1a1a;">
    <div style="flex: 0 1 auto; display: flex; flex-direction: column; align-items: center; text-align: center;">
@@ -657,6 +681,31 @@ function showTyping(container) {
     container.appendChild(typing);
     return id;
 }
+       let currentStep = 0;
+const goal = ['MCT', 'ALG', 'KBL'];
+
+function checkPuzzle(hubName) {
+    if (hubName === goal[currentStep]) {
+        // Correct click! Make it glow green
+        document.getElementById('dot-' + hubName.toLowerCase()).classList.add('active');
+        currentStep++;
+
+        if (currentStep === goal.length) {
+            alert("Success! Global Network Activated for Afsha Group.");
+            document.getElementById('puzzle-instructions').innerText = "NETWORK ONLINE";
+        }
+    } else {
+        // Wrong click! Reset the game
+        alert("Incorrect route! Start with MCT (Muscat).");
+        resetGame();
+    }
+}
+
+function resetGame() {
+    currentStep = 0;
+    const dots = document.querySelectorAll('.puzzle-dot');
+    dots.forEach(d => d.classList.remove('active'));
+}
 </script>
         <!-- STATS COUNTER SECTION -->
 <section id="stats" style="padding: 80px 20px; background: #000; border-top: 1px solid #1a1a1a;">
@@ -688,5 +737,6 @@ function showTyping(container) {
 
     </div>
 </section>
+        
 </body>
 </html>
