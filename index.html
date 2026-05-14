@@ -257,36 +257,63 @@
         </div>
     </div>
 </section>
-        <!-- ENQUIRY SECTION -->
-<section id="enquiry" style="padding: 60px 20px; background: #080808; border-top: 1px solid #1a1a1a;">
-    <div style="max-width: 600px; margin: 0 auto; background: #111; padding: 40px; border-radius: 15px; border: 1px solid var(--emerald);">
-        <h2 style="color: var(--emerald); text-align: center; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px;">Business Enquiry</h2>
-        
-        <form action="https://formspree.io/f/xzdoqkno" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
-            
-            <label style="font-size: 12px; color: #888;">Full Name</label>
-            <input type="text" name="name" required style="padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 5px;">
+<!-- MODERN ENQUIRY SECTION -->
+<section id="enquiry" style="padding: 100px 20px; background: radial-gradient(circle at top right, #0a150a, #050505); font-family: 'Segoe UI', sans-serif;">
+    <div style="max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 50px; align-items: center;">
+        <form action="https://formspree.io/f/xzdoqkno" method="POST">
+        <!-- Left Side: Branding & Info -->
+        <div style="flex: 1; min-width: 300px;">
+            <h2 style="color: #2E7D32; font-size: 36px; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 20px;">Get in Touch</h2>
+            <p style="color: #888; line-height: 1.8; font-size: 16px; margin-bottom: 30px;">
+                Whether you're looking for global air freight solutions or a bespoke luxury getaway, our experts are ready to assist. 
+                <br><br>
+                <span style="color: #fff; font-weight: bold;">Response Time:</span> Within 24 Hours
+            </p>
+            <div style="display: flex; gap: 15px; color: #2E7D32; font-size: 20px;">
+                <span>LinkedIn</span> | <span>Instagram</span> | <span>Twitter</span>
+            </div>
+        </div>
 
-            <label style="font-size: 12px; color: #888;">Email Address</label>
-            <input type="email" name="email" required style="padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 5px;">
+        <!-- Right Side: The Glassmorphic Form -->
+        <div style="flex: 1.2; min-width: 320px; background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); padding: 40px; border-radius: 20px; border: 1px solid rgba(46, 125, 50, 0.2); box-shadow: 0 25px 50px rgba(0,0,0,0.5);">
+            <form action="https://formspree.io/f/your_formspree_id" method="POST" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                
+                <div style="grid-column: span 1;">
+                    <input type="text" name="name" placeholder="Full Name" required 
+                           style="width: 100%; padding: 15px; background: rgba(0,0,0,0.5); border: 1px solid #222; border-radius: 8px; color: #fff; outline: none; transition: 0.3s;" 
+                           onfocus="this.style.borderColor='#2E7D32'; this.style.boxShadow='0 0 10px rgba(46,125,50,0.2)'" 
+                           onblur="this.style.borderColor='#222'">
+                </div>
 
-            <label style="font-size: 12px; color: #888;">Phone Number</label>
-            <input type="tel" name="phone" required style="padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 5px;">
+                <div style="grid-column: span 1;">
+                    <input type="email" name="email" placeholder="Email Address" required 
+                           style="width: 100%; padding: 15px; background: rgba(0,0,0,0.5); border: 1px solid #222; border-radius: 8px; color: #fff; outline: none; transition: 0.3s;"
+                           onfocus="this.style.borderColor='#2E7D32'" onblur="this.style.borderColor='#222'">
+                </div>
 
-            <label style="font-size: 12px; color: #888;">Enquiry Type</label>
-            <select name="type" style="padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 5px;">
-                <option value="Cargo">Air Cargo Logistics</option>
-                <option value="Tourism">Nexplan Holidays</option>
-                <option value="Other">General Partnership</option>
-            </select>
+                <div style="grid-column: span 2;">
+                    <select name="service" style="width: 100%; padding: 15px; background: rgba(0,0,0,0.5); border: 1px solid #222; border-radius: 8px; color: #888; outline: none; cursor: pointer;">
+                        <option value="">Select Service Interest</option>
+                        <option value="cargo">Air Cargo & Logistics</option>
+                        <option value="nexplan">Nexplan Luxury Holidays</option>
+                        <option value="partnership">General Business Inquiry</option>
+                    </select>
+                </div>
 
-            <label style="font-size: 12px; color: #888;">Message</label>
-            <textarea name="message" rows="4" style="padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 5px; resize: none;"></textarea>
+                <div style="grid-column: span 2;">
+                    <textarea name="message" rows="5" placeholder="Tell us about your requirements..." 
+                              style="width: 100%; padding: 15px; background: rgba(0,0,0,0.5); border: 1px solid #222; border-radius: 8px; color: #fff; outline: none; resize: none; transition: 0.3s;"
+                              onfocus="this.style.borderColor='#2E7D32'" onblur="this.style.borderColor='#222'"></textarea>
+                </div>
 
-            <button type="submit" style="background: var(--emerald); color: white; border: none; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.3s;">
-                Submit Enquiry
-            </button>
-        </form>
+                <button type="submit" 
+                        style="grid-column: span 2; padding: 18px; background: linear-gradient(45deg, #1b5e20, #2E7D32); color: #fff; border: none; border-radius: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.4s; box-shadow: 0 10px 20px rgba(46,125,50,0.3);"
+                        onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 30px rgba(46,125,50,0.5)'"
+                        onmouseout="this.style.transform='translateY(0)'">
+                    Send Message
+                </button>
+            </form>
+        </div>
     </div>
 </section>
 
