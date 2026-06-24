@@ -915,6 +915,190 @@ function resetGame() {
         box-sizing: border-box;
     }
 </style>
+<!-- FLOATING SUDOKU MIND GAME WIDGET -->
+<style>
+    /* Floating Widget Window Container */
+    .afsha-sudoku-widget {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 320px;
+        background: rgba(10, 10, 10, 0.98);
+        border: 1px solid #2E7D32;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        font-family: 'Segoe UI', sans-serif;
+        color: #fff;
+        z-index: 9999;
+        overflow: hidden;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    
+    /* Header Area styling */
+    .sudoku-header {
+        background: #111;
+        padding: 12px 15px;
+        border-bottom: 1px solid #2E7D32;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+        font-size: 13px;
+        letter-spacing: 1px;
+    }
+    
+    .sudoku-toggle-btn {
+        background: transparent;
+        border: none;
+        color: #2E7D32;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    
+    /* Interactive Interior Panel Body */
+    .sudoku-body {
+        padding: 20px 15px;
+        text-align: center;
+        transition: max-height 0.3s ease;
+    }
+    
+    /* Collapsed animation state transition */
+    .sudoku-collapsed {
+        transform: translateY(275px);
+    }
 
+    /* 4x4 Mini Game Box Grid Structure */
+    .sudoku-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+        max-width: 200px;
+        margin: 0 auto 15px;
+    }
+    
+    .sudoku-cell {
+        width: 45px;
+        height: 45px;
+        background: #151515;
+        border: 1px solid #333;
+        color: #fff;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+    
+    .sudoku-cell:focus {
+        border-color: #2E7D32;
+        box-shadow: 0 0 8px rgba(46,125,50,0.4);
+        outline: none;
+    }
+    
+    .sudoku-cell[disabled] {
+        background: #222;
+        color: #888;
+        border-color: #1a1a1a;
+    }
+    
+    /* Action Submission Button UI */
+    .sudoku-verify-btn {
+        background: #2E7D32;
+        border: none;
+        color: white;
+        padding: 8px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: background 0.2s;
+    }
+    
+    .sudoku-verify-btn:hover {
+        background: #1b5e20;
+    }
+</style>
+
+<!-- WIDGET DOM ELEMENT INJECTION -->
+<div id="sudoku-widget" class="afsha-sudoku-widget sudoku-collapsed">
+    <div class="sudoku-header">
+        <span>🧩 LOGISTICS MIND GAME</span>
+        <button class="sudoku-toggle-btn" onclick="toggleSudoku()">▲</button>
+    </div>
+    <div class="sudoku-body">
+        <p style="font-size: 11px; color: #888; margin: 0 0 15px 0;">Complete the grid using unique numbers 1 to 4</p>
+        
+        <div class="sudoku-grid">
+            <!-- Row 1 -->
+            <input type="text" class="sudoku-cell" value="1" disabled>
+            <input type="text" class="sudoku-cell" id="c1" maxlength="1">
+            <input type="text" class="sudoku-cell" id="c2" maxlength="1">
+            <input type="text" class="sudoku-cell" value="4" disabled>
+            
+            <!-- Row 2 -->
+            <input type="text" class="sudoku-cell" id="c3" maxlength="1">
+            <input type="text" class="sudoku-cell" value="3" disabled>
+            <input type="text" class="sudoku-cell" value="2" disabled>
+            <input type="text" class="sudoku-cell" id="c4" maxlength="1">
+            
+            <!-- Row 3 -->
+            <input type="text" class="sudoku-cell" id="c5" maxlength="1">
+            <input type="text" class="sudoku-cell" value="4" disabled>
+            <input type="text" class="sudoku-cell" value="1" disabled>
+            <input type="text" class="sudoku-cell" id="c6" maxlength="1">
+            
+            <!-- Row 4 -->
+            <input type="text" class="sudoku-cell" value="4" disabled>
+            <input type="text" class="sudoku-cell" id="c7" maxlength="1">
+            <input type="text" class="sudoku-cell" id="c8" maxlength="1">
+            <input type="text" class="sudoku-cell" value="2" disabled>
+        </div>
+        
+        <button class="sudoku-verify-btn" onclick="checkSudokuSolution()">Verify Solution</button>
+    </div>
+</div>
+
+<script>
+    // Handles collapsing and expanding window functionality
+    function toggleSudoku() {
+        const widget = document.getElementById('sudoku-widget');
+        const button = widget.querySelector('.sudoku-toggle-btn');
+        
+        if (widget.classList.contains('sudoku-collapsed')) {
+            widget.classList.remove('sudoku-collapsed');
+            button.innerText = '▼';
+        } else {
+            widget.classList.add('sudoku-collapsed');
+            button.innerText = '▲';
+        }
+    }
+
+    // Evaluates inputs against correct pattern positions
+    function checkSudokuSolution() {
+        // Correct values needed for empty cells:
+        const answers = {
+            'c1': '2', 'c2': '3',
+            'c3': '2', 'c4': '1',
+            'c5': '3', 'c6': '2',
+            'c7': '1', 'c8': '3'
+        };
+        
+        let isCorrect = true;
+        
+        for (let id in answers) {
+            const inputField = document.getElementById(id);
+            if (inputField.value.trim() !== answers[id]) {
+                isCorrect = false;
+            }
+        }
+        
+        if (isCorrect) {
+            alert("Excellent! Grid metrics fully solved. Strategy sequence confirmed.");
+        } else {
+            alert("Incorrect sequence detected. Double check the rows and columns!");
+        }
+    }
+</script>
 </body>
 </html>
