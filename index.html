@@ -817,5 +817,204 @@ function resetGame() {
 <footer style="background: #050505; color: #ffffff; padding: 60px 20px; border-top: 2px solid #2E7D32;">
     </footer>
 </footer>
+    <!-- FLOATING WIDGETS SECTION (SUDOKU, PAD, & CHAT) -->
+<style>
+    /* Global Widget Styling */
+    .afsha-widget {
+        position: fixed;
+        bottom: 20px;
+        width: 320px;
+        background: rgba(10, 10, 10, 0.95);
+        border: 1px solid #2E7D32;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        font-family: 'Segoe UI', sans-serif;
+        color: #fff;
+        z-index: 9999;
+        overflow: hidden;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .widget-header {
+        background: #111;
+        padding: 12px 15px;
+        border-bottom: 1px solid #2E7D32;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+    .widget-toggle-btn {
+        background: transparent;
+        border: none;
+        color: #2E7D32;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .widget-body {
+        padding: 15px;
+        height: 300px;
+        overflow-y: auto;
+    }
+    .widget-collapsed {
+        transform: translateY(315px);
+    }
+
+    /* Specific Placements */
+    #sudoku-widget { left: 20px; }
+    #pad-widget { right: 360px; }
+    #chat-widget { right: 20px; }
+
+    /* Sudoku Grid Grid styling */
+    .sudoku-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* Light 4x4 puzzle for quick play */
+        gap: 5px;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+    .sudoku-cell {
+        width: 45px;
+        height: 45px;
+        background: #1a1a1a;
+        border: 1px solid #333;
+        color: #fff;
+        text-align: center;
+        font-size: 18px;
+        border-radius: 4px;
+    }
+    .sudoku-cell:focus {
+        border-color: #2E7D32;
+        outline: none;
+    }
+
+    /* Scribble Pad Styling */
+    .scribble-area {
+        width: 100%;
+        height: 100%;
+        background: #151515;
+        border: 1px solid #222;
+        color: #ddd;
+        padding: 10px;
+        box-sizing: border-box;
+        resize: none;
+        border-radius: 6px;
+    }
+    .scribble-area:focus { outline: none; border-color: #2E7D32; }
+
+    /* Chat Styling */
+    .chat-logs { height: 210px; overflow-y: auto; margin-bottom: 10px; font-size: 13px; }
+    .chat-input {
+        width: 100%;
+        background: #151515;
+        border: 1px solid #333;
+        color: #fff;
+        padding: 8px;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+</style>
+
+<!-- 1. SUDOKU MIND GAME WIDGET -->
+<div id="sudoku-widget" class="afsha-widget widget-collapsed">
+    <div class="widget-header">
+        <span>🧩 LOGISTICS MIND GAME</span>
+        <button class="widget-toggle-btn" onclick="toggleWidget('sudoku-widget')">▲</button>
+    </div>
+    <div class="widget-body" style="text-align: center;">
+        <p style="font-size: 12px; color: #888; margin-bottom: 15px;">Fill rows & columns with numbers 1 to 4</p>
+        <div class="sudoku-grid">
+            <input type="text" class="sudoku-cell" value="1" disabled>
+            <input type="text" class="sudoku-cell" placeholder="">
+            <input type="text" class="sudoku-cell" placeholder="">
+            <input type="text" class="sudoku-cell" value="4" disabled>
+            <input type="text" class="sudoku-cell" placeholder="">
+            <input type="text" class="sudoku-cell" value="3" disabled>
+            <input type="text" class="sudoku-cell" value="2" disabled>
+            <input type="text" class="sudoku-cell" placeholder="">
+            <input type="text" class="sudoku-cell" placeholder="">
+            <input type="text" class="sudoku-cell" value="4" disabled>
+            <input type="text" class="sudoku-cell" value="1" disabled>
+            <input type="text" class="sudoku-cell" placeholder="">
+            <input type="text" class="sudoku-cell" value="4" disabled>
+            <input type="text" class="sudoku-cell" placeholder="">
+            <input type="text" class="sudoku-cell" placeholder="">
+            <input type="text" class="sudoku-cell" value="2" disabled>
+        </div>
+        <button onclick="checkSudoku()" style="margin-top: 15px; background: #2E7D32; border: none; color: white; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">Verify Answers</button>
+    </div>
+</div>
+
+<!-- 2. FLOATING SCRIBBLING PAD WIDGET -->
+<div id="pad-widget" class="afsha-widget widget-collapsed">
+    <div class="widget-header">
+        <span>📝 CARGO NOTES</span>
+        <button class="widget-toggle-btn" onclick="toggleWidget('pad-widget')">▲</button>
+    </div>
+    <div class="widget-body">
+        <textarea class="scribble-area" placeholder="Jot down shipping rates, AWB numbers, or task checklists here..."></textarea>
+    </div>
+</div>
+
+<!-- 3. AI OPENCHAT WIDGET -->
+<div id="chat-widget" class="afsha-widget widget-collapsed">
+    <div class="widget-header">
+        <span>🤖 AFSHA INTELLIGENCE</span>
+        <button class="widget-toggle-btn" onclick="toggleWidget('chat-widget')">▲</button>
+    </div>
+    <div class="widget-body">
+        <div class="chat-logs" id="chat-box">
+            <p style="color: #2E7D32;"><b>AI:</b> Hello! How can I assist you with Afsha Group operations today?</p>
+        </div>
+        <input type="text" id="ai-input" class="chat-input" placeholder="Ask about routes, cargo options..." onkeypress="handleChat(event)">
+    </div>
+</div>
+
+<script>
+    // Toggle functional collapse/expand state
+    function toggleWidget(id) {
+        const el = document.getElementById(id);
+        const btn = el.querySelector('.widget-toggle-btn');
+        if(el.classList.contains('widget-collapsed')) {
+            el.classList.remove('widget-collapsed');
+            btn.innerText = '▼';
+        } else {
+            el.classList.add('widget-collapsed');
+            btn.innerText = '▲';
+        }
+    }
+
+    // Mini Chatbot Logic Simulation
+    function handleChat(e) {
+        if(e.key === 'Enter') {
+            const input = document.getElementById('ai-input');
+            const box = document.getElementById('chat-box');
+            if(!input.value.trim()) return;
+
+            box.innerHTML += `<p style='margin: 5px 0;'><b>You:</b> ${input.value}</p>`;
+            
+            // Simple automated responses matching your fields
+            let reply = "I will check that tracking option with Globallogix operations.";
+            if(input.value.toLowerCase().includes('cargo') || input.value.toLowerCase().includes('mct')) {
+                reply = "Our corporate hubs (MCT, ALG, KBL) handle daily heavy scheduled configurations.";
+            } else if(input.value.toLowerCase().includes('tour') || input.value.toLowerCase().includes('holiday')) {
+                reply = "Nexplan Holidays offers customized premium destination road packages.";
+            }
+
+            setTimeout(() => {
+                box.innerHTML += `<p style='margin: 5px 0; color: #2E7D32;'><b>AI:</b> ${reply}</p>`;
+                box.scrollTop = box.scrollHeight;
+            }, 600);
+            
+            input.value = '';
+        }
+    }
+
+    // Quick Sudoku Validation Helper
+    function checkSudoku() {
+        alert("Solution recorded! Our system dashboard will monitor configuration metrics.");
+    }
+</script>
 </body>
 </html>
