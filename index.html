@@ -916,48 +916,5 @@ function resetGame() {
     }
 </style>
 
-<!-- 1. SUDOKU MIND GAME WIDGET -->
-<div id="sudoku-widget" class="afsha-widget widget-collapsed">
-    <div class="widget-header">
-        <span>🧩 LOGISTICS MIND GAME</span>
-        <button class="widget-toggle-btn" onclick="toggleWidget('sudoku-widget')">▲</button>
-    </div>
-    <div class="widget-body" style="text-align: center;">
-        <p style="font-size: 12px; color: #888; margin-bottom: 15px;">Fill rows & columns with numbers 1 to 4</p>
-        <div class="sudoku-grid">
-            <input type="text" class="sudoku-cell" value="1" disabled>
-            <input type="text" class="sudoku-cell" placeholder="">
-            <input type="text" class="sudoku-cell" placeholder="">
-            <input type="text" class="sudoku-cell" value="4" disabled>
-            <input type="text" class="sudoku-cell" placeholder="">
-            <input type="text" class="sudoku-cell" value="3" disabled>
-            <input type="text" class="sudoku-cell" value="2" disabled>
-            <input type="text" class="sudoku-cell" placeholder="">
-            <input type="text" class="sudoku-cell" placeholder="">
-            <input type="text" class="sudoku-cell" value="4" disabled>
-            <input type="text" class="sudoku-cell" value="1" disabled>
-            <input type="text" class="sudoku-cell" placeholder="">
-            <input type="text" class="sudoku-cell" value="4" disabled>
-            <input type="text" class="sudoku-cell" placeholder="">
-            <input type="text" class="sudoku-cell" placeholder="">
-            <input type="text" class="sudoku-cell" value="2" disabled>
-        </div>
-        <button onclick="checkSudoku()" style="margin-top: 15px; background: #2E7D32; border: none; color: white; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">Verify Answers</button>
-    </div>
-</div>
-            setTimeout(() => {
-                box.innerHTML += `<p style='margin: 5px 0; color: #2E7D32;'><b>AI:</b> ${reply}</p>`;
-                box.scrollTop = box.scrollHeight;
-            }, 600);
-            
-            input.value = '';
-        }
-    }
-
-    // Quick Sudoku Validation Helper
-    function checkSudoku() {
-        alert("Solution recorded! Our system dashboard will monitor configuration metrics.");
-    }
-</script>
 </body>
 </html>
