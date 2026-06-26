@@ -11,15 +11,27 @@
         /* ... your emerald green styles ... */
     </style>
 </head>
-    <div id="scroll-progress" style="position: fixed; top: 0; left: 0; height: 3px; background: #2E7D32; width: 0%; z-index: 10001; transition: width 0.1s ease-out; box-shadow: 0 0 10px #2E7D32;"></div>
+    <!-- UPDATED EXTRA-FORCED SCROLL PROGRESS BAR -->
+<div id="scroll-progress" style="position: fixed; top: 0; left: 0; height: 4px; background: #2E7D32; width: 0%; z-index: 99999; box-shadow: 0 0 12px #2E7D32; transition: width 0.05s ease-out;"></div>
 
 <script>
-window.addEventListener('scroll', () => {
-    const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
-    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (winScroll / height) * 100;
-    document.getElementById('scroll-progress').style.width = scrolled + '%';
-});
+function updateProgressBar() {
+    // Measures scroll distance across all major browser engines
+    const scrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
+    const clientHeight = document.documentElement.clientHeight || window.innerHeight || 0;
+    
+    const totalScrollableDistance = scrollHeight - clientHeight;
+    
+    if (totalScrollableDistance > 0) {
+        const percentageScrolled = (scrollTop / totalScrollableDistance) * 100;
+        document.getElementById('scroll-progress').style.width = percentageScrolled + '%';
+    }
+}
+
+// Listens to both standard windows scrolling and touch movements on mobile
+window.addEventListener('scroll', updateProgressBar, { passive: true });
+window.addEventListener('resize', updateProgressBar);
 </script>
 <body>
     <meta charset="UTF-8">
